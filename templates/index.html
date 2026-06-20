@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Disease Prediction System</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <i class="bi bi-heart-pulse-fill"></i>
+            Disease Predictor AI
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Project</a>
+        </div>
+
+    </nav>
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+
+        <div class="badge">
+            🏥 AI Powered Healthcare Assistant
+        </div>
+
+        <h1>
+            Disease Prediction <br>
+            <span>Using Machine Learning</span>
+        </h1>
+
+        <p>
+            Search symptoms, select multiple symptoms,
+            and get AI-powered disease predictions.
+        </p>
+
+    </section>
+
+    <!-- Prediction Card -->
+
+    <div class="prediction-card">
+
+        <div class="card-icon">
+            <i class="bi bi-clipboard2-pulse"></i>
+        </div>
+
+        <h2>Select Symptoms</h2>
+
+        <p class="sub-text">
+            Select at least 3 symptoms for better prediction accuracy.
+        </p>
+
+        <form action="/predict"
+            method="POST"
+            onsubmit="return validateSymptoms()">
+
+            <!-- Search Box -->
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="symptomSearch"
+                    placeholder="🔍 Search symptoms...">
+
+            </div>
+
+            <!-- Selected Symptoms -->
+
+            <div class="selected-title">
+                Selected Symptoms
+            </div>
+
+            <div id="selectedSymptoms"
+                class="selected-symptoms">
+
+            </div>
+
+            <!-- Symptoms List -->
+
+            <div class="symptoms-container"
+                id="symptomsContainer">
+
+                {% for symptom in symptoms %}
+
+                <label class="symptom-card">
+
+                    <input
+                        type="checkbox"
+                        name="symptoms"
+                        value="{{ symptom }}"
+                        onchange="updateSelectedSymptoms()">
+
+                    <span>
+                        {{ symptom.replace("_", " ").title() }}
+                    </span>
+
+                </label>
+
+                {% endfor %}
+
+            </div>
+
+            <button class="predict-btn"
+                type="submit">
+
+                <i class="bi bi-activity"></i>
+
+                Predict Disease
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Features -->
+
+    <section class="features">
+
+        <div class="feature-card">
+
+            <i class="bi bi-cpu"></i>
+
+            <h3>Machine Learning</h3>
+
+            <p>
+                Disease prediction using Random Forest Algorithm.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="bi bi-lightning-charge"></i>
+
+            <h3>Instant Results</h3>
+
+            <p>
+                Predictions generated within seconds.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="bi bi-shield-check"></i>
+
+            <h3>Reliable</h3>
+
+            <p>
+                Trained on disease symptom datasets.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="bi bi-heart-pulse"></i>
+
+            <h3>Healthcare AI</h3>
+
+            <p>
+                Smart healthcare assistance using AI.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- JavaScript -->
+
+    <script>
+
+        const searchInput =
+            document.getElementById("symptomSearch");
+
+        searchInput.addEventListener("keyup", function () {
+
+            let filter =
+                this.value.toLowerCase();
+
+            let cards =
+                document.querySelectorAll(".symptom-card");
+
+            cards.forEach(card => {
+
+                let text =
+                    card.innerText.toLowerCase();
+
+                if (text.includes(filter)) {
+
+                    card.style.display = "flex";
+
+                }
+
+                else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        });
+
+        function updateSelectedSymptoms() {
+
+            const selectedContainer =
+                document.getElementById("selectedSymptoms");
+
+            selectedContainer.innerHTML = "";
+
+            const checked =
+                document.querySelectorAll(
+                    'input[name="symptoms"]:checked'
+                );
+
+            checked.forEach(item => {
+
+                const chip =
+                    document.createElement("div");
+
+                chip.classList.add("symptom-chip");
+
+                chip.innerText =
+                    item.parentElement.innerText.trim();
+
+                selectedContainer.appendChild(chip);
+
+            });
+
+        }
+
+        function validateSymptoms() {
+
+            const checked =
+                document.querySelectorAll(
+                    'input[name="symptoms"]:checked'
+                );
+
+            if (checked.length < 3) {
+
+                alert(
+                    "Please select at least 3 symptoms."
+                );
+
+                return false;
+
+            }
+
+            return true;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

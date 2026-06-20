@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Disease Prediction Result</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <i class="bi bi-heart-pulse-fill"></i>
+            Disease Predictor AI
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+        </div>
+
+    </nav>
+
+    <!-- Result Container -->
+
+    <div class="result-container">
+
+        <!-- Left Side -->
+
+        <div class="result-left">
+
+            <h2 class="section-title">
+                Prediction Result
+            </h2>
+
+            <div class="disease-circle">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+
+            </div>
+
+            <div class="disease-card">
+
+                {{ disease }}
+
+            </div>
+
+            <!-- Confidence Score -->
+
+            <div class="confidence-section">
+
+                <h3>Confidence Score</h3>
+
+                <div class="confidence-value">
+                    {{ confidence }}%
+                </div>
+
+                <div class="progress">
+
+                    <div class="progress-bar"
+                        style="width: {{ confidence }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="success-box">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                Disease prediction completed successfully.
+
+            </div>
+
+        </div>
+
+        <!-- Right Side -->
+
+        <div class="result-right">
+
+            <h2 class="section-title">
+                Selected Symptoms
+            </h2>
+
+            <div class="symptom-list">
+
+                {% for symptom in symptoms %}
+
+                <div class="symptom-item">
+
+                    {{ symptom.replace("_", " ").title() }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- Top Predictions -->
+
+            <div class="top-predictions">
+
+                <h3>
+                    <i class="bi bi-bar-chart-fill"></i>
+                    Top Predictions
+                </h3>
+
+                {% for item in top_predictions %}
+
+                <div class="prediction-row">
+
+                    <div class="prediction-name">
+                        {{ item.disease }}
+                    </div>
+
+                    <div class="prediction-score">
+                        {{ item.confidence }}%
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- Recommendation -->
+
+            <div class="recommendation-box">
+
+                <h3>
+                    <i class="bi bi-lightbulb"></i>
+                    Recommendation
+                </h3>
+
+                <p>
+                    This prediction is generated using a Machine Learning model.
+                    Please consult a qualified healthcare professional for
+                    proper medical diagnosis and treatment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="button-area">
+
+        <a href="/">
+
+            <button class="primary-btn">
+
+                <i class="bi bi-arrow-repeat"></i>
+
+                Predict Again
+
+            </button>
+
+        </a>
+
+    </div>
+
+</body>
+
+</html>
